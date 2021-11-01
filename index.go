@@ -5,12 +5,23 @@ import (
 	"fmt"
 	"hris_go/faceUtils"
 	"log"
+	"os"
 	"strconv"
 	"strings"
 
 	"github.com/Kagami/go-face"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	mode := os.Getenv("GIN_MODE")
+	gin.SetMode(mode)
+}
 
 func main() {
 	route := gin.Default()
@@ -109,5 +120,5 @@ func main() {
 			return
 		}
 	})
-	route.Run(":14015") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	route.Run(":" + os.Getenv("PORT")) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
